@@ -1,11 +1,61 @@
 {
   "version": 1,
   "projects": {
+    "models": {
+      "projectType": "library",
+      "root": "libs/models",
+      "sourceRoot": "libs/models/src",
+      "prefix": "video-system",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/models"],
+          "options": {
+            "jestConfig": "libs/models/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/models/src/**/*.ts",
+              "libs/models/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "shared-ui": {
+      "projectType": "library",
+      "root": "libs/shared-ui",
+      "sourceRoot": "libs/shared-ui/src",
+      "prefix": "vs",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shared-ui"],
+          "options": {
+            "jestConfig": "libs/shared-ui/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/shared-ui/src/**/*.ts",
+              "libs/shared-ui/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
     "vsapp": {
       "projectType": "application",
       "root": "apps/vsapp",
       "sourceRoot": "apps/vsapp/src",
-      "prefix": "video-system",
+      "prefix": "vs",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -19,7 +69,10 @@
             "inlineStyleLanguage": "scss",
             "assets": ["apps/vsapp/src/favicon.ico", "apps/vsapp/src/assets"],
             "styles": ["apps/vsapp/src/styles.scss"],
-            "scripts": []
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": ["libs/styles"]
+            }
           },
           "configurations": {
             "production": {

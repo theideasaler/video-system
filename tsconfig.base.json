@@ -14,7 +14,10 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@video-system/models": ["libs/models/src/index.ts"],
+      "@video-system/shared-ui": ["libs/shared-ui/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

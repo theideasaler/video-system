@@ -1,3 +1,7 @@
 module.exports = {
-  projects: ['<rootDir>/apps/vsapp'],
+  projects: [
+    '<rootDir>/apps/vsapp',
+    '<rootDir>/libs/shared-ui',
+    '<rootDir>/libs/models',
+  ],
 };

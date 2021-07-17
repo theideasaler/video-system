@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'video-system-root',
+  selector: 'vs-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })

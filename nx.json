@@ -27,6 +27,12 @@
     ]
   },
   "projects": {
+    "models": {
+      "tags": []
+    },
+    "shared-ui": {
+      "tags": []
+    },
     "vsapp": {
       "tags": []
     },
