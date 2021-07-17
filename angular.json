@@ -1,0 +1,152 @@
+{
+  "version": 1,
+  "projects": {
+    "vsapp": {
+      "projectType": "application",
+      "root": "apps/vsapp",
+      "sourceRoot": "apps/vsapp/src",
+      "prefix": "video-system",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/vsapp",
+            "index": "apps/vsapp/src/index.html",
+            "main": "apps/vsapp/src/main.ts",
+            "polyfills": "apps/vsapp/src/polyfills.ts",
+            "tsConfig": "apps/vsapp/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": ["apps/vsapp/src/favicon.ico", "apps/vsapp/src/assets"],
+            "styles": ["apps/vsapp/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/vsapp/src/environments/environment.ts",
+                  "with": "apps/vsapp/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "vsapp:build:production"
+            },
+            "development": {
+              "browserTarget": "vsapp:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "vsapp:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/vsapp/src/**/*.ts",
+              "apps/vsapp/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/vsapp"],
+          "options": {
+            "jestConfig": "apps/vsapp/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "vsapp-e2e": {
+      "root": "apps/vsapp-e2e",
+      "sourceRoot": "apps/vsapp-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/vsapp-e2e/cypress.json",
+            "tsConfig": "apps/vsapp-e2e/tsconfig.e2e.json",
+            "devServerTarget": "vsapp:serve:development"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "vsapp:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/vsapp-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/angular"
+  },
+  "schematics": {
+    "@nrwl/angular": {
+      "application": {
+        "linter": "eslint"
+      },
+      "library": {
+        "linter": "eslint"
+      },
+      "storybook-configuration": {
+        "linter": "eslint"
+      }
+    },
+    "@nrwl/angular:application": {
+      "style": "scss",
+      "linter": "eslint",
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "style": "scss",
+      "linter": "eslint",
+      "unitTestRunner": "jest"
+    },
+    "@nrwl/angular:component": {
+      "style": "scss"
+    }
+  },
+  "defaultProject": "vsapp"
+}
