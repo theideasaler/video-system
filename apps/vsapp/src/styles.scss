@@ -1,6 +1,42 @@
 @import 'index';
 /* You can add global styles to this file, and also import other style files */
-html, body {
-    @include full-size;
-    @include flex-center;
+
+html {
+  font-size: $root-font-size;
+}
+
+html,
+body {
+  @include full-size;
+  @include flex-center;
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  background-color: $body-bg-color;
+}
+
+.display-none {
+  display: none;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-start {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.c-pointer {
+  @include hover-pointer;
 }

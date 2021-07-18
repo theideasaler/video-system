@@ -2,9 +2,18 @@ export interface VideoPlayerConfig {
   /** Video player's themes */
   theme: VideoPlayerThemes;
   /** Default width */
-  width: number;
+  width: string;
   /** Default height */
-  height: number;
+  height: string;
+  /** Auto play video on load */
+  autoplay?: boolean;
+  /** Preload thumbnail */
+  preloadThumbs?: boolean;
+}
+
+export interface VideoControlConfig {
+    /** Show thumbnail image*/
+    showThumbnail?: boolean;
 }
 
 export enum VideoPlayerThemes {

@@ -1,1 +1,5 @@
-<p>video-loader works!</p>
+<carousel [borderRadius]="10">
+    <div class="carousel-cell" *ngFor="let img of images">
+        <img [src]="img.path" (click)="onClick(img.url)">
+    </div>
+</carousel>

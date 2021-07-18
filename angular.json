@@ -5,7 +5,7 @@
       "projectType": "library",
       "root": "libs/models",
       "sourceRoot": "libs/models/src",
-      "prefix": "video-system",
+      "prefix": "vs",
       "architect": {
         "test": {
           "builder": "@nrwl/jest:jest",
@@ -51,6 +51,31 @@
         }
       }
     },
+    "utils": {
+      "projectType": "library",
+      "root": "libs/utils",
+      "sourceRoot": "libs/utils/src",
+      "prefix": "video-system",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/utils"],
+          "options": {
+            "jestConfig": "libs/utils/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/utils/src/**/*.ts",
+              "libs/utils/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
     "vsapp": {
       "projectType": "application",
       "root": "apps/vsapp",
@@ -68,7 +93,10 @@
             "tsConfig": "apps/vsapp/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": ["apps/vsapp/src/favicon.ico", "apps/vsapp/src/assets"],
-            "styles": ["apps/vsapp/src/styles.scss"],
+            "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "apps/vsapp/src/styles.scss"
+            ],
             "scripts": [],
             "stylePreprocessorOptions": {
               "includePaths": ["libs/styles"]

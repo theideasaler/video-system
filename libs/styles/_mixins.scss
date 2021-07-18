@@ -1,11 +1,31 @@
 @mixin full-size {
-    height: 100%;
-    width: 100%;
-    margin: 0;
+  height: 100%;
+  width: 100%;
+  margin: 0;
 }
 
 @mixin flex-center {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin hover-pointer {
+  &:hover,
+  &:focus,
+  &:active {
+    cursor: pointer;
+  }
+}
+
+@mixin padding-0-1rem {
+  & > * {
+    padding: 0 1rem;
+  }
+}
+
+@mixin dash-border-box{
+    border: dashed 1px #979797;
+    border-radius: 10px;
+    margin-bottom: 10px;
 }

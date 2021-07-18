@@ -1,1 +1,18 @@
-<p>video-uploader works!</p>
+<div class="video-uploader" [style.width]="options.width">
+    <div class="video-drop-zone c-pointer" vsAppDragDrop (fileDropped)="uploadFile($event)" (click)="fileUpload.click()">
+        <input type="file" hidden #fileUpload (change)="uploadFile($event?.target)">
+        <mat-icon>cloud_upload</mat-icon><span [style.margin.px]="10">Upload a mp4 video</span>
+      </div>
+      <div class="uploaded-file" *ngIf="file">
+        <div class="first-row">
+          <mat-icon>movie</mat-icon>
+          <span>{{file.name}} </span>
+        </div>
+        <div class="second-row">
+          <mat-progress-bar mode="determinate" [value]="fileProgress"></mat-progress-bar>
+          <button class="delete-file" (click)="deleteUpload()">
+            <mat-icon>delete_forever</mat-icon>
+          </button>
+        </div>
+      </div>
+</div>

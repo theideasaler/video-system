@@ -1,0 +1,11 @@
+@import 'index';
+
+:host {
+  @include full-size;
+  @include flex-center;
+
+  width: 75%;
+  max-width: 1620px;
+  background-color: $app-bg-color;
+  flex-direction: column;
+}
