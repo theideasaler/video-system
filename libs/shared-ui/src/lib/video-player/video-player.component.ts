@@ -39,7 +39,7 @@ export class VideoPlayerComponent
   @Input() options!: any;
   @Input() url = '/assets/statics/starship.mp4';
   private destroy$ = new Subject();
-  private url$ = new Subject();
+  private url$ = new BehaviorSubject<string>('');
   private ts: any[] = [];
   private sec = 0;
   thumbs$ = new BehaviorSubject<any[]>([]);
@@ -100,8 +100,8 @@ export class VideoPlayerComponent
   }
 
   onThumbChange(sec: number) {
-    sec = Math.min(sec, parseInt(`${this.vp?.nativeElement?.duration - 1}`));
-    this.thumb = JSON.stringify(this.ts.find((t) => t.sec === sec) ?? {});
+    this.sec = Math.min(sec, parseInt(`${this.vp?.nativeElement?.duration - 1}`));
+    this.thumb = JSON.stringify(this.ts.find((t) => t.sec === this.sec) ?? {});
   }
 
   actionOnVideo(play?: boolean) {
