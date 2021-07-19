@@ -1,5 +1,6 @@
 <div class="video-container" *ngIf="url" vsOnHover [ngStyle]="{'height': options.height, 'width': options.width}">
-    <video #videoPlayer [width]="options.width" [height]="options.height" (click)="actionOnVideo()" (loadeddata)="onDataLoaded()" muted>
+    <video #videoPlayer [width]="options.width" [height]="options.height" (click)="actionOnVideo()"
+        (loadeddata)="onDataLoaded()" [volume]="0">
         <source [src]="url" type="video/mp4">
     </video>
     <div class="screen-actions flex-center" *ngIf="videoLoaded && showActions" (click)="actionOnVideo(true)">

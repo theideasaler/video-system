@@ -26,6 +26,11 @@
   }
 }
 
+::ng-deep .volume-info {
+  :first-child {margin-right: 5px;}
+  @include mat-slider-colors(#fff, rgba(192, 192, 192, 0.35));
+}
+
 .progress-bar {
   position: relative;
   height: $progress-bar-height;
@@ -55,6 +60,12 @@
     :nth-child(2) {
       padding: 0 0.5rem;
     }
+  }
+  .volume-info {
+    mat-slider {
+      width: 25%;
+    }
+
   }
 }
 
@@ -98,6 +109,6 @@
     font-size: 4rem;
     opacity: 0.5;
     animation-duration: 4s;
-    animation:rotating 4s linear infinite;
+    animation: rotating 4s linear infinite;
   }
 }

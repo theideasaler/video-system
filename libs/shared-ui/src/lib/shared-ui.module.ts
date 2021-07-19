@@ -9,7 +9,9 @@ import { AppDragDropDirective } from './app-drag-drop.directive';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { FilesService } from '../../../services';
 import { HttpClientModule } from '@angular/common/http';
-import {IvyCarouselModule} from 'angular-responsive-carousel';
+import { IvyCarouselModule } from 'angular-responsive-carousel';
+import { MatSliderModule } from '@angular/material/slider';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -18,14 +20,18 @@ import {IvyCarouselModule} from 'angular-responsive-carousel';
     MatIconModule,
     MatSnackBarModule,
     MatProgressBarModule,
-    IvyCarouselModule
+    MatSliderModule,
+    IvyCarouselModule,
   ],
   declarations: [...comps, OnHoverDirective, AppDragDropDirective],
   exports: [
     ...comps,
     MatTooltipModule,
+    MatIconModule,
     MatSnackBarModule,
     MatProgressBarModule,
+    MatSliderModule,
+    IvyCarouselModule,
   ],
   providers: [FilesService],
 })

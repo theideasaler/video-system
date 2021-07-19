@@ -1,3 +1,3 @@
 <!-- <vs-video-uploader [options]="config"></vs-video-uploader> -->
-<vs-video-loader (selectedChange)="setUrl($event)"></vs-video-loader>
-<vs-video-player *ngIf="url" [options]="config" [url]="url"></vs-video-player>
+<vs-video-loader (selectedChange)="url = $event"></vs-video-loader>
+<vs-video-player [options]="config" [url]="url"></vs-video-player>

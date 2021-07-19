@@ -14,7 +14,7 @@ import {
 import { COMPONENT_WITH_ON_HOVER } from '../on-hover.directive';
 import { preloadVideoThumbs } from '@video-system/utils';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { switchMap, take, takeUntil } from 'rxjs/operators';
 
 export const defaults: VideoPlayerConfig = {
   theme: VideoPlayerThemes.dark,
@@ -38,13 +38,14 @@ export class VideoPlayerComponent
   @ViewChild('videoPlayer') vp!: ElementRef;
   @Input() options!: any;
   @Input() url = '/assets/statics/starship.mp4';
+  private destroy$ = new Subject();
+  private url$ = new Subject();
+  private ts: any[] = [];
+  private sec = 0;
+  thumbs$ = new BehaviorSubject<any[]>([]);
   onHover = false;
   videoLoaded = false;
-  thumbs$ = new BehaviorSubject<any[]>([]);
-  ts!: any[];
-  thumb: string = '{}';
-  sec!: number;
-  destroy$ = new Subject();
+  thumb = '{}';
   get showActions() {
     return !!(this.vp?.nativeElement?.paused || this.vp?.nativeElement?.ended);
   }
@@ -52,18 +53,24 @@ export class VideoPlayerComponent
   constructor(private cd: ChangeDetectorRef) {}
 
   ngOnInit(): void {
-    this.options = {...defaults, ...(this.options ?? {})};
-    this.thumbs$.pipe(takeUntil(this.destroy$)).subscribe((ts) => {
-      this.ts = ts;
-      this.thumb = JSON.stringify(
-        (this.ts ?? []).find((t) => t.sec === this.sec) ?? {}
-      );
-    });
+    this.options = { ...defaults, ...(this.options ?? {}) };
+    this.thumbs$
+      .pipe(
+        take(1),
+        switchMap((_) => this.url$.pipe(switchMap((_) => this.thumbs$))),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((ts) => {
+        this.ts = ts;
+        this.thumb = JSON.stringify(
+          this.ts.find((t) => t.sec === this.sec) ?? {}
+        );
+      });
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.url && changes.url.previousValue !== changes.url.currentValue)
-      this.thumbs$.next([]);
+      this._reload(changes.url.currentValue);
   }
 
   ngAfterViewInit() {
@@ -76,7 +83,7 @@ export class VideoPlayerComponent
 
   onDataLoaded() {
     this.videoLoaded = true;
-    this.vp.nativeElement.muted = "muted";
+    this.vp.nativeElement.muted = 'muted';
     if (this.options.preloadThumbs) {
       const cloned = this.vp.nativeElement.cloneNode(true);
       cloned.setAttribute(
@@ -93,10 +100,8 @@ export class VideoPlayerComponent
   }
 
   onThumbChange(sec: number) {
-    sec = Math.min(sec, 107);
-    this.thumb = JSON.stringify(
-      (this.ts ?? []).find((t) => t.sec === sec) ?? {}
-    );
+    sec = Math.min(sec, parseInt(`${this.vp?.nativeElement?.duration - 1}`));
+    this.thumb = JSON.stringify(this.ts.find((t) => t.sec === sec) ?? {});
   }
 
   actionOnVideo(play?: boolean) {
@@ -106,5 +111,16 @@ export class VideoPlayerComponent
     } else {
       video.play();
     }
+  }
+
+  private _reload(url: string) {
+    this.thumbs$ = new BehaviorSubject<any[]>([]);
+    this.url$.next(url);
+    this.onHover = false;
+    this.videoLoaded = false;
+    this.ts = [];
+    this.thumb = '{}';
+    this.sec = 0;
+    this.vp?.nativeElement?.load();
   }
 }

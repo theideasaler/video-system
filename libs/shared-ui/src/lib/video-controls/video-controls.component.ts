@@ -9,6 +9,7 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
+import { MatSliderChange } from '@angular/material/slider';
 import { MatTooltip } from '@angular/material/tooltip';
 import { VideoControlConfig } from '@video-system/models';
 import * as moment from 'moment';
@@ -44,7 +45,7 @@ export class VideoControlsComponent implements OnInit, OnChanges {
   constructor(private elRef: ElementRef) {}
 
   ngOnInit(): void {
-    if(!this.target) return;
+    if (!this.target) return;
     this.totalTime = this._formatTime(this.target.nativeElement.duration);
     this._updateStyles();
     this.target.nativeElement.ontimeupdate = (_: any) => {
@@ -82,6 +83,20 @@ export class VideoControlsComponent implements OnInit, OnChanges {
       this.target.nativeElement.duration
     );
     this.target.nativeElement.currentTime = mouseSecs;
+  }
+
+  setVolume($event?: MatSliderChange) {
+    if ($event == null) {
+      this.target.nativeElement.muted = !this.target.nativeElement.muted;
+      if (!this.target.nativeElement.muted)
+        this.target.nativeElement.volume = 0.5;
+      else this.target.nativeElement.volume = 0;
+    } else {
+      const volume = $event.value;
+      this.target.nativeElement.volume = (volume ?? 0) / 100;
+      if (volume === 0) this.target.nativeElement.muted = true;
+      else this.target.nativeElement.muted = false;
+    }
   }
 
   private _getMouseTime(

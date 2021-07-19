@@ -29,3 +29,13 @@
     border-radius: 10px;
     margin-bottom: 10px;
 }
+
+@mixin mat-slider-colors($thumb-color, $bar-color) {
+  .mat-slider-thumb, .mat-slider-track-fill {
+    border-color: $thumb-color !important;
+    background-color: $thumb-color !important;
+  }
+  .mat-slider-track-background {
+    background-color: $bar-color !important;
+  }
+}
