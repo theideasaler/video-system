@@ -24,7 +24,7 @@
                 {{target?.nativeElement?.muted ? 'volume_off' : 'volume_up'}}
             </mat-icon>
             <mat-slider [min]="0" [max]="100" [value]="(target.nativeElement.volume?? 0) * 100"
-                (change)="setVolume($event)"></mat-slider>
+                (input)="setVolume($event)"></mat-slider>
         </div>
     </div>
 </div>

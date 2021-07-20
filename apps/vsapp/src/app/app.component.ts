@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { VideoPlayerConfig } from '@video-system/models';
 
 @Component({
   selector: 'vs-root',
@@ -8,5 +9,5 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'vsapp';
   url = '/assets/statics/starship.mp4';
-  config = { width: '960px', height: '540px' };
+  config: Partial<VideoPlayerConfig> = { width: '960px', height: '540px', autoplay: true, mute: false };
 }

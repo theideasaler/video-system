@@ -4,24 +4,27 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  EventEmitter,
   Input,
   OnChanges,
   OnDestroy,
   OnInit,
+  Output,
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { COMPONENT_WITH_ON_HOVER } from '../on-hover.directive';
 import { preloadVideoThumbs } from '@video-system/utils';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { switchMap, take, takeUntil } from 'rxjs/operators';
+import { filter, switchMap, take, takeUntil } from 'rxjs/operators';
 
 export const defaults: VideoPlayerConfig = {
   theme: VideoPlayerThemes.dark,
   width: '960px',
   height: '540px',
+  frontendPreload: true,
   autoplay: false,
-  preloadThumbs: true,
+  mute: true,
 };
 
 @Component({
@@ -36,19 +39,20 @@ export class VideoPlayerComponent
   implements OnChanges, OnInit, AfterViewInit, OnDestroy
 {
   @ViewChild('videoPlayer') vp!: ElementRef;
-  @Input() options!: any;
+  @Output() progressBarHover = new EventEmitter<number>();
+  @Input() options!: Partial<VideoPlayerConfig>;
   @Input() url = '/assets/statics/starship.mp4';
+  @Input() thumb = '{}';
   private destroy$ = new Subject();
   private url$ = new BehaviorSubject<string>('');
   private ts: any[] = [];
   private sec = 0;
-  thumbs$ = new BehaviorSubject<any[]>([]);
-  onHover = false;
-  videoLoaded = false;
-  thumb = '{}';
   get showActions() {
     return !!(this.vp?.nativeElement?.paused || this.vp?.nativeElement?.ended);
   }
+  thumbs$ = new BehaviorSubject<any[]>([]);
+  onHover = false;
+  videoLoaded = false;
 
   constructor(private cd: ChangeDetectorRef) {}
 
@@ -56,6 +60,7 @@ export class VideoPlayerComponent
     this.options = { ...defaults, ...(this.options ?? {}) };
     this.thumbs$
       .pipe(
+        filter((_) => !!this.options?.frontendPreload),
         take(1),
         switchMap((_) => this.url$.pipe(switchMap((_) => this.thumbs$))),
         takeUntil(this.destroy$)
@@ -81,10 +86,43 @@ export class VideoPlayerComponent
     this.destroy$.next(null);
   }
 
+  onPbHovered(sec: number) {
+    if (!this.options.frontendPreload) return this.progressBarHover.emit(sec);
+    
+    this.sec = Math.min(
+      sec,
+      parseInt(`${this.vp?.nativeElement?.duration - 1}`)
+    );
+    this.thumb = JSON.stringify(this.ts.find((t) => t.sec === this.sec) ?? {});
+  }
+
+  actionOnVideo(play?: boolean) {
+    const video = this.vp.nativeElement;
+    if (video.currentTime > 0 && !video.paused && !video.ended) {
+      video.pause();
+    } else {
+      video.play();
+    }
+  }
+
   onDataLoaded() {
     this.videoLoaded = true;
-    this.vp.nativeElement.muted = 'muted';
-    if (this.options.preloadThumbs) {
+    this._initPlay();
+    this._initVolume();
+    this._initFrontEndPreload();
+  }
+
+  private _initVolume() {
+    if (this.options?.mute) this.vp.nativeElement.muted = 'muted';
+    else this.vp.nativeElement.volume = 0.5;
+  }
+
+  private _initPlay() {
+    if (this.options?.autoplay) this.vp.nativeElement.play();
+  }
+
+  private _initFrontEndPreload() {
+    if (this.options?.frontendPreload) {
       const cloned = this.vp.nativeElement.cloneNode(true);
       cloned.setAttribute(
         'style',
@@ -96,20 +134,6 @@ export class VideoPlayerComponent
         cloned,
         this.options
       );
-    }
-  }
-
-  onThumbChange(sec: number) {
-    this.sec = Math.min(sec, parseInt(`${this.vp?.nativeElement?.duration - 1}`));
-    this.thumb = JSON.stringify(this.ts.find((t) => t.sec === this.sec) ?? {});
-  }
-
-  actionOnVideo(play?: boolean) {
-    const video = this.vp.nativeElement;
-    if (video.currentTime > 0 && !video.paused && !video.ended) {
-      video.pause();
-    } else {
-      video.play();
     }
   }
 

@@ -1,14 +1,16 @@
 export interface VideoPlayerConfig {
   /** Video player's themes */
-  theme: VideoPlayerThemes;
+  theme?: VideoPlayerThemes;
   /** Default width */
-  width: string;
+  width?: string;
   /** Default height */
-  height: string;
+  height?: string;
   /** Auto play video on load */
   autoplay?: boolean;
-  /** Preload thumbnail */
-  preloadThumbs?: boolean;
+  /** Preload thumbnail at front end*/
+  frontendPreload?: boolean;
+  /** Mute video at beginning */
+  mute?: boolean;
 }
 
 export interface VideoControlConfig {
