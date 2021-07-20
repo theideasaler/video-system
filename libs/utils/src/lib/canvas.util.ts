@@ -1,23 +1,23 @@
 import { BehaviorSubject } from 'rxjs';
+import { VideoPlayerConfig } from '@video-system/models';
 
 export function preloadVideoThumbs(
   thumbs$: BehaviorSubject<any[]>,
   duration: number,
   video: any,
-  options: any,
+  options: Partial<VideoPlayerConfig>
 ): any {
-    const thumbs: any[] = [];
+  const thumbs: any[] = [];
   document.body.appendChild(video);
-  const canvasWidth = +options.width.replace(/\D/g, '') / 5;
-  const canvasHeight = +options.height.replace(/\D/g, '') / 5;
+  const canvasWidth = +(options.width?.replace(/\D/g, '') ?? 0) / 5;
+  const canvasHeight = +(options.height?.replace(/\D/g, '') ?? 0) / 5;
   video.addEventListener(
     'loadeddata',
     async function () {
-      for (let i = 0; i < duration; i++) {
+      for (let i = 0; i <= duration; i = i + (options.interval ?? 1)) {
         const canvas = document.createElement('canvas');
         canvas.width = canvasWidth;
         canvas.height = canvasHeight;
-        thumbs.push({ sec: i, canvas });
 
         const context = canvas.getContext('2d');
         video.currentTime = i;
@@ -25,9 +25,9 @@ export function preloadVideoThumbs(
         await new Promise(function (rsv) {
           const event = function () {
             context?.drawImage(video, 0, 0, canvasWidth, canvasHeight);
-            thumbs[i].url = canvas.toDataURL('image/jpeg');
+            const url = canvas.toDataURL('image/jpeg');
+            thumbs.push({ sec: i, url });
             video.removeEventListener('canplay', event);
-            delete thumbs[i].canvas;
             rsv(null);
           };
           video.addEventListener('canplay', event);

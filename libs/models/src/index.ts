@@ -1,9 +1,9 @@
 export interface VideoPlayerConfig {
   /** Video player's themes */
   theme?: VideoPlayerThemes;
-  /** Default width, by default is 960px  */
+  /** Default width, by default is '960px'  */
   width?: string;
-  /** Default height, by default is 540px */
+  /** Default height, by default is '540px' */
   height?: string;
   /** Auto play video on load, by default is false */
   autoplay?: boolean;
@@ -13,11 +13,13 @@ export interface VideoPlayerConfig {
   mute?: boolean;
   /** Set a border radius for your video player, by default is 0 */
   borderRadius?: string;
+  /** Set time(in second) interval to load a new thumb, by default is 1 */
+  interval?: number;
 }
 
 export interface VideoControlConfig {
-    /** Show thumbnail image*/
-    showThumbnail?: boolean;
+  /** Show thumbnail image*/
+  showThumbnail?: boolean;
 }
 
 export enum VideoPlayerThemes {

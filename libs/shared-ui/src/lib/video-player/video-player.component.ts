@@ -26,6 +26,7 @@ export const defaults: VideoPlayerConfig = {
   autoplay: false,
   mute: true,
   borderRadius: '0px',
+  interval: 1,
 };
 
 @Component({
@@ -90,10 +91,7 @@ export class VideoPlayerComponent
   onPbHovered(sec: number) {
     if (!this.options.frontendPreload) return this.progressBarHover.emit(sec);
 
-    this.sec = Math.min(
-      sec,
-      parseInt(`${this.vp?.nativeElement?.duration - 1}`)
-    );
+    this.sec = this._getIntervalTime(sec, this.options.interval ?? 1);
     this.thumb = JSON.stringify(this.ts.find((t) => t.sec === this.sec) ?? {});
   }
 
@@ -144,11 +142,15 @@ export class VideoPlayerComponent
       );
       preloadVideoThumbs(
         this.thumbs$,
-        parseInt(this.vp.nativeElement.duration),
+        Math.floor(this.vp.nativeElement.duration),
         cloned,
         this.options
       );
     }
+  }
+
+  private _getIntervalTime(current = 0, interval = 1) {
+    return Math.floor(current / interval) * interval;
   }
 
   private _reload(url: string) {
