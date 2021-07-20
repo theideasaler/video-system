@@ -9,5 +9,5 @@ import { VideoPlayerConfig } from '@video-system/models';
 export class AppComponent {
   title = 'vsapp';
   url = '/assets/statics/starship.mp4';
-  config: Partial<VideoPlayerConfig> = { width: '960px', height: '540px', autoplay: true, mute: false };
+  config: Partial<VideoPlayerConfig> = { width: '960px', height: '540px', autoplay: true, mute: false, borderRadius: '50px' };
 }

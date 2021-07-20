@@ -7,5 +7,6 @@
         <mat-icon>{{vp?.nativeElement?.ended ? 'replay': 'play_arrow'}}</mat-icon>
     </div>
     <vs-video-controls *ngIf="videoLoaded" [class.active]="onHover || showActions" [target]="vp"
-        (stateChange)="actionOnVideo($event)" (pbOnHover)="onPbHovered($event)" [thumb]="thumb"></vs-video-controls>
+        (stateChange)="actionOnVideo($event)" (pbOnHover)="onPbHovered($event)" [thumb]="thumb"
+        (nonControlAreaClicked)="actionOnVideo()"></vs-video-controls>
 </div>

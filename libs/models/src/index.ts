@@ -1,16 +1,18 @@
 export interface VideoPlayerConfig {
   /** Video player's themes */
   theme?: VideoPlayerThemes;
-  /** Default width */
+  /** Default width, by default is 960px  */
   width?: string;
-  /** Default height */
+  /** Default height, by default is 540px */
   height?: string;
-  /** Auto play video on load */
+  /** Auto play video on load, by default is false */
   autoplay?: boolean;
-  /** Preload thumbnail at front end*/
+  /** Preload thumbnail at front end, by default is true */
   frontendPreload?: boolean;
-  /** Mute video at beginning */
+  /** Mute video at beginning, by default is true */
   mute?: boolean;
+  /** Set a border radius for your video player, by default is 0 */
+  borderRadius?: string;
 }
 
 export interface VideoControlConfig {

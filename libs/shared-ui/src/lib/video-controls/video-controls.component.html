@@ -1,4 +1,4 @@
-<div class="custom-controls">
+<div class="custom-controls" (click)="$event.stopPropagation();">
     <div class="progress-bar" #progressBar vsOnHover (mousemove)="onMouseMove($event)"
         (click)="onProgressbarClick($event)">
         <div class="bar" [style.width]="barLength"></div>

@@ -2,6 +2,7 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  HostListener,
   Input,
   OnChanges,
   OnInit,
@@ -30,6 +31,7 @@ export const defaults: VideoControlConfig = {
 export class VideoControlsComponent implements OnInit, OnChanges {
   @Output() stateChange = new EventEmitter<boolean>();
   @Output() pbOnHover = new EventEmitter<number>();
+  @Output() nonControlAreaClicked = new EventEmitter();
   @Input() target!: ElementRef<any>;
   @Input() thumb: any = {};
   @ViewChild('tooltip') tooltip!: MatTooltip;
@@ -99,6 +101,11 @@ export class VideoControlsComponent implements OnInit, OnChanges {
     }
   }
 
+  @HostListener('click', ['$event'])
+  onHostClicked($event: MouseEvent) {
+    this.nonControlAreaClicked.emit();
+  }
+
   private _getMouseTime(
     mouseX: number,
     pbLeft: number,
@@ -123,6 +130,12 @@ export class VideoControlsComponent implements OnInit, OnChanges {
         ? (this.target?.nativeElement?.offsetWidth ?? 0) /
             this.target.nativeElement.offsetHeight
         : 1.77
+    );
+    this.elRef.nativeElement.style.setProperty(
+      '--thumbHeight',
+      this.target?.nativeElement?.offsetHeight
+        ? (this.target?.nativeElement?.offsetHeight ?? 0) / 5 + 'px'
+        : '10rem'
     );
   }
 }

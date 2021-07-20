@@ -8,8 +8,8 @@ export function preloadVideoThumbs(
 ): any {
     const thumbs: any[] = [];
   document.body.appendChild(video);
-  const canvasWidth = +options.width.replace('px', '') / 5;
-  const canvasHeight = +options.height.replace('px', '') / 5;
+  const canvasWidth = +options.width.replace(/\D/g, '') / 5;
+  const canvasHeight = +options.height.replace(/\D/g, '') / 5;
   video.addEventListener(
     'loadeddata',
     async function () {

@@ -3,12 +3,13 @@
 
 :host {
   --widthRatio: 1.77;
+  --thumbHeight: 10rem;
   position: absolute;
   z-index: 1;
   width: 100%;
   left: 0;
   bottom: 0;
-  height: $progress-bar-height + $crtls-height + $tooltip-height + $thumb-height;
+  height: calc(#{$progress-bar-height} + #{$crtls-height} + #{$tooltip-height} + var(--thumbHeight));
   overflow: hidden;
 
   .custom-controls {
@@ -89,10 +90,10 @@
     visibility: visible;
   }
   &.thumb {
-    height: $thumb-height;
-    max-height: $thumb-height;
-    width: calc(#{$thumb-height} * var(--widthRatio));
-    max-width: calc(#{$thumb-height} * var(--widthRatio));
+    height: var(--thumbHeight);
+    max-height: var(--thumbHeight);
+    width: calc(var(--thumbHeight) * var(--widthRatio));
+    max-width: calc(var(--thumbHeight) * var(--widthRatio));
     padding: 0.5rem;
     img {
       max-width: 100%;

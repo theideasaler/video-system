@@ -25,6 +25,7 @@ export const defaults: VideoPlayerConfig = {
   frontendPreload: true,
   autoplay: false,
   mute: true,
+  borderRadius: '0px',
 };
 
 @Component({
@@ -54,7 +55,7 @@ export class VideoPlayerComponent
   onHover = false;
   videoLoaded = false;
 
-  constructor(private cd: ChangeDetectorRef) {}
+  constructor(private cd: ChangeDetectorRef, private elRef: ElementRef) {}
 
   ngOnInit(): void {
     this.options = { ...defaults, ...(this.options ?? {}) };
@@ -88,7 +89,7 @@ export class VideoPlayerComponent
 
   onPbHovered(sec: number) {
     if (!this.options.frontendPreload) return this.progressBarHover.emit(sec);
-    
+
     this.sec = Math.min(
       sec,
       parseInt(`${this.vp?.nativeElement?.duration - 1}`)
@@ -107,22 +108,35 @@ export class VideoPlayerComponent
 
   onDataLoaded() {
     this.videoLoaded = true;
-    this._initPlay();
-    this._initVolume();
-    this._initFrontEndPreload();
+    this._setStyle();
+    this._setPlay();
+    this._setVolume();
+    this._setFrontEndPreload();
   }
 
-  private _initVolume() {
-    if (this.options?.mute) this.vp.nativeElement.muted = 'muted';
+  private _setStyle() {
+    const { borderRadius } = this.options ?? {};
+    if (borderRadius)
+      this.elRef.nativeElement.style.setProperty(
+        '--border-radius',
+        borderRadius
+      );
+  }
+
+  private _setPlay() {
+    const { autoplay } = this.options ?? {};
+    if (autoplay) this.vp.nativeElement.play();
+  }
+
+  private _setVolume() {
+    const { mute } = this.options ?? {};
+    if (mute) this.vp.nativeElement.muted = 'muted';
     else this.vp.nativeElement.volume = 0.5;
   }
 
-  private _initPlay() {
-    if (this.options?.autoplay) this.vp.nativeElement.play();
-  }
-
-  private _initFrontEndPreload() {
-    if (this.options?.frontendPreload) {
+  private _setFrontEndPreload() {
+    const { frontendPreload } = this.options ?? {};
+    if (frontendPreload) {
       const cloned = this.vp.nativeElement.cloneNode(true);
       cloned.setAttribute(
         'style',

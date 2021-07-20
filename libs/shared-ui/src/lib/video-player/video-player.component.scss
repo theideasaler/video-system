@@ -1,7 +1,10 @@
 @import 'index';
 
 :host {
+  --border-radius: 0;
+  border-radius: var(--border-radius);
   position: relative;
+  overflow: hidden;
   &,
   .video-container {
     max-width: 100%;
