@@ -2,11 +2,11 @@
     <div class="progress-bar" #progressBar vsOnHover (mousemove)="onMouseMove($event)"
         (click)="onProgressbarClick($event)">
         <div class="bar" [style.width]="barLength"></div>
-        <span [class.active]="onHover" class="tooltip" [style.left]="barLength"
-            [style.display-none]="!onHover">{{currentTime}}</span>
         <div [class.active]="onHover" class="tooltip thumb" [style.left]="mouseLeft" [style.display-none]="!onHover">
             <img *ngIf="thumb && thumb.url; else loading" [src]="thumb.url">
         </div>
+        <span [class.active]="onHover" class="tooltip" [style.left]="barLength"
+            [style.display-none]="!onHover">{{currentTime}}</span>
         <span [class.active]="onHover" class="tooltip" [style.left]="mouseLeft"
             [style.display-none]="!onHover">{{mouseTime}}</span>
     </div>

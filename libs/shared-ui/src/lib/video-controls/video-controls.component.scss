@@ -3,7 +3,7 @@
 
 :host {
   --widthRatio: 1.77;
-  --thumbHeight: 10rem;
+  --thumbHeight: $thumb-height;
   position: absolute;
   z-index: 1;
   width: 100%;
