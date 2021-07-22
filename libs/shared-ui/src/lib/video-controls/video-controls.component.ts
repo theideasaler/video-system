@@ -12,13 +12,8 @@ import {
 } from '@angular/core';
 import { MatSliderChange } from '@angular/material/slider';
 import { MatTooltip } from '@angular/material/tooltip';
-import { VideoControlConfig } from '@video-system/models';
 import * as moment from 'moment';
 import { COMPONENT_WITH_ON_HOVER } from '../on-hover.directive';
-
-export const defaults: VideoControlConfig = {
-  showThumbnail: true,
-};
 
 @Component({
   selector: 'vs-video-controls',

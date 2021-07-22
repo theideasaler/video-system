@@ -1,6 +1,4 @@
 export interface VideoPlayerConfig {
-  /** Video player's themes */
-  theme?: VideoPlayerThemes;
   /** Default width, by default is '960px'  */
   width?: string;
   /** Default height, by default is '540px' */
@@ -15,14 +13,6 @@ export interface VideoPlayerConfig {
   borderRadius?: string;
   /** Set time(in second) interval to load a new thumb, by default is 1 */
   interval?: number;
-}
-
-export interface VideoControlConfig {
-  /** Show thumbnail image*/
-  showThumbnail?: boolean;
-}
-
-export enum VideoPlayerThemes {
-  dark = 0,
-  light = 1,
+  /** Thumbnail image ratio, by default is 5, which has 1/5 of video height & 1/5 of width */
+  thumbnailRatio?: number;
 }

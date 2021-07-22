@@ -1,4 +1,4 @@
-import { VideoPlayerConfig, VideoPlayerThemes } from '@video-system/models';
+import { VideoPlayerConfig } from '@video-system/models';
 import {
   AfterViewInit,
   ChangeDetectorRef,
@@ -19,7 +19,6 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { filter, switchMap, take, takeUntil } from 'rxjs/operators';
 
 export const defaults: VideoPlayerConfig = {
-  theme: VideoPlayerThemes.dark,
   width: '960px',
   height: '540px',
   frontendPreload: true,
@@ -27,6 +26,7 @@ export const defaults: VideoPlayerConfig = {
   mute: true,
   borderRadius: '0px',
   interval: 1,
+  thumbnailRatio: 5
 };
 
 @Component({
